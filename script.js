@@ -5,6 +5,7 @@ let currentGuessWord = 0
 let currentGuessLetter = 0
 let currentGuessValue = ''
 let currentWord = getCurrentWord()
+let gameOver = false
 
 for (let i = 0; i < 6; i++) {
     allLetters[i] = []
@@ -26,7 +27,6 @@ document.addEventListener("keydown", handleGuess)
 function handleGuess(e) {
     switch(e.key) {
         case "Enter":
-            console.log('hi')
             submitGuess()
             break
         case "Backspace":
@@ -71,23 +71,27 @@ function handleValidGuess() {
     for (let i = 0; i < currentWordLetters.length; i++) {
         if (currentWordLetters[i] === currentGuessValueLetters[i]) {
             allLetters[currentGuessWord][i].classList.add("correct-letter")
-            wordMap[currentWordLetters[i]]--
-            console.log(wordMap)
+            wordMap[currentGuessValueLetters[i]]--
         }
     }
     for (let i = 0; i < currentWordLetters.length; i++) {
         if (currentWordLetters[i] === currentGuessValueLetters[i]) {
 
         } else if (currentWordLetters.includes(currentGuessValueLetters[i]) && wordMap[currentGuessValueLetters[i]] > 0) {
+            wordMap[currentGuessValueLetters[i]]--
             allLetters[currentGuessWord][i].classList.add("close-answer")
         } else {
             allLetters[currentGuessWord][i].classList.add("wrong-answer")
+            console.log("wrong answer")
         }
     }
     currentGuessWord++
     currentGuessLetter = 0
+    checkForGameOver()
     currentGuessValue = ''
-    currentGuess = allLetters[currentGuessWord][currentGuessLetter]
+    if(!gameOver) {
+        currentGuess = allLetters[currentGuessWord][currentGuessLetter]
+    }
 }
 
 function deleteGuess() {
@@ -110,6 +114,16 @@ function inputGuess(letter) {
             currentGuessLetter++
         }
         currentGuess = allLetters[currentGuessWord][currentGuessLetter]
+    }
+}
+
+function checkForGameOver() {
+    if (currentGuessWord === 6) {
+        setTimeout(function(){alert("You Lose")}, 1000)
+        gameOver = true
+    } if (currentGuessValue === currentWord) {
+        setTimeout(function(){alert("You Win")}, 1000)
+        gameOver = true
     }
 }
 

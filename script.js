@@ -159,11 +159,11 @@ function generateResultDisplay() {
   for (const word of allLetters) {
     for (const letter of word) {
       if (letter.classList.contains("correct-letter")) {
-        resultString += "🟩";
+        resultString += "&#129001;";
       } else if (letter.classList.contains("wrong-answer")) {
-        resultString += "⬜️";
+        resultString += "&#11036;";
       } else if (letter.classList.contains("close-answer")) {
-        resultString += "🟨";
+        resultString += "&#x1F7E8;";
       }
     }
     resultString += "<br/>";
